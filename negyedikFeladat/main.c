@@ -6,7 +6,7 @@ int main()
 {
     int i;
     float num;
-
+    //
     srand(time(NULL));
     for (i = 0; i < 10; i++)
     {
