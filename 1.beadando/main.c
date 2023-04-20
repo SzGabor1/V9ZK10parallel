@@ -1,15 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <time.h>
-#include <stdbool.h>
-
-typedef struct
-{
-    int start;
-    int end;
-    int count;
-} PrimeArgs;
+#include "main.h"
 
 bool is_prime(int n)
 {
@@ -44,7 +33,7 @@ void *count_primes(void *args)
 int main()
 {
     int limit = 0;
-    printf("Add meg a prímszámok megszámlálásának határát: ");
+    printf("Add meg a primszamok megszamlalasanak hatarat: ");
     scanf("%d", &limit);
 
     PrimeArgs args1 = {1, limit / 2, 0};
@@ -52,7 +41,7 @@ int main()
 
     clock_t start_time, end_time;
 
-    // Párhuzamos futtatás
+    // Parhuzamos futtatas
     start_time = clock();
     pthread_t thread1;
     pthread_t thread2;
@@ -85,7 +74,7 @@ int main()
     double parallel_duration = (double)(end_time - start_time) / CLOCKS_PER_SEC;
     int total_count_parallel = args1.count + args2.count;
 
-    // Szekvenciális futtatás
+    // Szekvencialis futtatas
     start_time = clock();
     PrimeArgs args = {1, limit, 0};
     count_primes((void *)&args);
@@ -93,11 +82,11 @@ int main()
     double sequential_duration = (double)(end_time - start_time) / CLOCKS_PER_SEC;
     int total_count_sequential = args.count;
 
-    printf("A prímszámok száma 1 és %d között (párhuzamosan): %d\n", limit, total_count_parallel);
-    printf("A prímszámok száma 1 és %d között (szekvenciálisan): %d\n", limit, total_count_sequential);
-    printf("Párhuzamos futtatás időtartama: %f másodperc\n", parallel_duration);
-    printf("Szekvenciális futtatás időtartama: %f másodperc\n", sequential_duration);
-    printf("Párhuzamosítással megtakarított idő: %f másodperc\n", sequential_duration - parallel_duration);
+    printf("A primszamok szama 1 es %d kozott (parhuzamosan): %d\n", limit, total_count_parallel);
+    printf("A primszamok szama 1 es %d kozott (szekvencialisan): %d\n", limit, total_count_sequential);
+    printf("Parhuzamos futtatas idotartama: %f masodperc\n", parallel_duration);
+    printf("Szekvencialis futtatas idotartama: %f masodperc\n", sequential_duration);
+    printf("Parhuzamositasal megtakaritott ido: %f masodperc\n", sequential_duration - parallel_duration);
 
     return 0;
 }
