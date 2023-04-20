@@ -1,91 +1,84 @@
-// Floyd-Warshall algoritmus
-
-// Import header files for program
 #include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
-#include <time.h>
 #include <omp.h>
+#include <time.h>
 
-// Define the number of nodes in the graph
-#define N 1200
+#define N 100
+#define NUM_TRIALS 10
+#define FILENAME "matrix_mult_times.csv"
 
-// Define minimum function that will be used later on to calcualte minimum values between two numbers
-#ifndef min
-#define min(a, b) (((a) < (b)) ? (a) : (b))
-#endif
-
-// Define matrix of size N * N to store distances between nodes
-// Initialize all distances to zero
-int distance_matrix[N][N] = {0};
-
-int main(int argc, char *argv[])
+void matrix_mult_serial(double a[N][N], double b[N][N], double result[N][N])
 {
-    int nthreads;
-    int src, dst, middle;
-
-    // Initialize the graph with random distances
-    for (src = 0; src < N; src++)
+    for (int i = 0; i < N; ++i)
     {
-        for (dst = 0; dst < N; dst++)
+        for (int j = 0; j < N; ++j)
         {
-            // Distance from node to same node is 0. So, skipping these elements
-            if (src != dst)
+            double sum = 0.0;
+            for (int k = 0; k < N; ++k)
             {
-                // Distances are generated to be between 0 and 19
-                distance_matrix[src][dst] = rand() % 20;
+                sum += a[i][k] * b[k][j];
             }
+            result[i][j] = sum;
         }
     }
+}
 
-    // Define time variable to record start time for execution of program
-    double start_time = omp_get_wtime();
-
-    for (middle = 0; middle < N; middle++)
+void matrix_mult_parallel(double a[N][N], double b[N][N], double result[N][N])
+{
+#pragma omp parallel for
+    for (int i = 0; i < N; ++i)
     {
-        int *dm = distance_matrix[middle];
-        for (src = 0; src < N; src++)
+        for (int j = 0; j < N; ++j)
         {
-            int *ds = distance_matrix[src];
-            for (dst = 0; dst < N; dst++)
+            double sum = 0.0;
+            for (int k = 0; k < N; ++k)
             {
-                ds[dst] = min(ds[dst], ds[middle] + dm[dst]);
+                sum += a[i][k] * b[k][j];
             }
+            result[i][j] = sum;
         }
     }
+}
 
-    double time = omp_get_wtime() - start_time;
-    printf("Total time for sequential (in sec):%.2f\n", time);
-
-    for (nthreads = 1; nthreads <= 10; nthreads++)
+void fill_matrix(double matrix[N][N])
+{
+    for (int i = 0; i < N; ++i)
     {
-        // Define different number of threads
-        omp_set_num_threads(nthreads);
-
-        // Define iterator to iterate over distance matrix
-        // Define time variable to record start time for execution of program
-        double start_time = omp_get_wtime();
-
-/* Taking a node as mediator
-check if indirect distance between source and distance via mediator
-is less than direct distance between them */
-#pragma omp parallel shared(distance_matrix)
-        for (middle = 0; middle < N; middle++)
+        for (int j = 0; j < N; ++j)
         {
-            int *dm = distance_matrix[middle];
-#pragma omp parallel for private(src, dst) schedule(dynamic)
-            for (src = 0; src < N; src++)
-            {
-                int *ds = distance_matrix[src];
-                for (dst = 0; dst < N; dst++)
-                {
-                    ds[dst] = min(ds[dst], ds[middle] + dm[dst]);
-                }
-            }
+            matrix[i][j] = rand() % 100;
         }
-
-        double time = omp_get_wtime() - start_time;
-        printf("Total time for thread %d (in sec):%.2f\n", nthreads, time);
     }
+}
+
+int main()
+{
+    double a[N][N], b[N][N], result[N][N];
+    double serial_time, parallel_time;
+    FILE *file = fopen(FILENAME, "w");
+
+    srand(time(NULL));
+    fill_matrix(a);
+    fill_matrix(b);
+
+    fprintf(file, "trial,serial_time,parallel_time\n");
+
+    for (int trial = 0; trial < NUM_TRIALS; ++trial)
+    {
+        double start_serial = omp_get_wtime();
+        matrix_mult_serial(a, b, result);
+        double end_serial = omp_get_wtime();
+        serial_time = end_serial - start_serial;
+
+        double start_parallel = omp_get_wtime();
+        matrix_mult_parallel(a, b, result);
+        double end_parallel = omp_get_wtime();
+        parallel_time = end_parallel - start_parallel;
+
+        fprintf(file, "%d,%f,%f\n", trial + 1, serial_time, parallel_time);
+    }
+
+    fclose(file);
+
     return 0;
 }
