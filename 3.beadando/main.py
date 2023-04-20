@@ -50,11 +50,9 @@ if __name__ == '__main__':
 
     # Szekvenciális futás adatainak kiíratása
     print(f"Sequential Time: {seq_time:.6f}s, Pi: {seq_pi:.6f}")
-    print(
-        f"Parallel Time ({num_processes} processes): {par_time:.6f}s, Pi: {par_pi:.6f}")  # Párhuzamos futás adatainak kiíratása
-
     plt.bar(['Sequential', f'Parallel ({num_processes} processes)'], [
         seq_time, par_time])
-    plt.gcf().canvas.set_window_title('Monte Carlo módszer')
+    plt.title('Monte Carlo módszer')
     plt.ylabel('Time (s)')
+    plt.savefig('montecarlo.png')  # save the plot as a PNG file
     plt.show()
