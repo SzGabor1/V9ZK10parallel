@@ -1,2 +1,2 @@
 all:
-	gcc -o main main.c -lpthread
+	gcc -o main prime.c -lpthread

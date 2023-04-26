@@ -2,6 +2,7 @@ import random
 import time
 import multiprocessing as mp
 import matplotlib.pyplot as plt
+import sys
 
 # A pi értékének kiszámolása
 
@@ -40,19 +41,37 @@ def parallel(num_samples, num_processes):
     return end_time - start_time, pi
 
 
+def plot_results(seq_time, par_time, seq_pi, par_pi, num_processes):
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+    ax1.bar(['Sequential', f'Parallel ({num_processes} processes)'], [
+            seq_time, par_time])
+    ax1.set_title('Monte Carlo módszer - Futási idő')
+    ax1.set_ylabel('Idő (s)')
+
+    pi_errors = [abs(seq_pi - 3.141592653589793),
+                 abs(par_pi - 3.141592653589793)]
+    ax2.bar(['Sequential', f'Parallel ({num_processes} processes)'], pi_errors)
+    ax2.set_title('Monte Carlo módszer - Pontosság')
+    ax2.set_ylabel('Hiba')
+
+    plt.tight_layout()
+    plt.savefig('montecarlo.png')  # save the plot as a PNG file
+    plt.show()
+
+
 if __name__ == '__main__':
     num_samples = 10**7  # Pontok száma
-    num_processes = 2  # Magok száma
+    num_processes = int(sys.argv[1]) if len(sys.argv) > 1 else 2  # Magok száma
 
     seq_time, seq_pi = sequential(num_samples)  # Szekvenciális futási idő
     par_time, par_pi = parallel(
         num_samples, num_processes)  # Párhuzamos futási idő
 
-    # Szekvenciális futás adatainak kiíratása
+    # Szekvenciál
     print(f"Sequential Time: {seq_time:.6f}s, Pi: {seq_pi:.6f}")
-    plt.bar(['Sequential', f'Parallel ({num_processes} processes)'], [
-        seq_time, par_time])
-    plt.title('Monte Carlo módszer')
-    plt.ylabel('Time (s)')
-    plt.savefig('montecarlo.png')  # save the plot as a PNG file
-    plt.show()
+    # Párhuzamos futás adatainak kiíratása
+    print(f"Parallel Time: {par_time:.6f}s, Pi: {par_pi:.6f}")
+
+    # Eredmények ábrázolása
+    plot_results(seq_time, par_time, seq_pi, par_pi, num_processes)

@@ -1,5 +1,5 @@
 all:
-	gcc -o main main.c -fopenmp
+	gcc -o main matrixmult.c -fopenmp
 
 python:
-	python main.py
+	python main.py output.txt
