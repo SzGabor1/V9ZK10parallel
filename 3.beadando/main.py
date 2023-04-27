@@ -54,13 +54,13 @@ if __name__ == '__main__':
 
         # Szekvenciál
         print(
-            f"{i+1}Sequential Time: {seq_times[i]:.6f}s, Pi: {seq_pis[i]:.100f}")
+            f"{i+1}Sequential Time: {seq_times[i]:.6f}s, Pi: {seq_pis[i]:.50f}")
         # Párhuzamos futás adatainak kiíratása
         print(
-            f"{i+1}Parallel Time: {par_times[i]:.6f}s, Pi: {par_pis[i]:.100f}")
+            f"{i+1}Parallel Time: {par_times[i]:.6f}s, Pi: {par_pis[i]:.50f}")
 
     # Szekvenciál
-    seqbbp = time_seq_BBP(1000)
+    seqbbp = time_seq_BBP(50)
 
     print(f"Sequential BBP Time:{seqbbp[0]:.6f}s, Pi: {seqbbp[1]}")
     print(
