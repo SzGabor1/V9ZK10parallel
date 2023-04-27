@@ -1,18 +1,36 @@
 Matrix size: 200 x 200
-Sequential time: 0.028000 seconds
-Parallel time: 0.010000 seconds
-Speedup sequential-paralell: 2.800000
-Parallel block time: 0.005000 seconds
-Speedup sequential-paralell: 2.800000
+Sequential time: 0.027000 seconds
+Parallel time: 0.009000 seconds
+Speedup sequential-paralell: 3.000000
+Parallel block time: 0.008000 seconds
+Speedup sequential-paralell: 3.000000
 Matrix size: 500 x 500
-Sequential time: 0.523000 seconds
-Parallel time: 0.103000 seconds
-Speedup sequential-paralell: 5.077670
-Parallel block time: 0.081000 seconds
-Speedup sequential-paralell: 5.077670
-Matrix size: 1000 x 1000
-Sequential time: 5.956000 seconds
-Parallel time: 1.108000 seconds
-Speedup sequential-paralell: 5.375451
-Parallel block time: 0.636000 seconds
-Speedup sequential-paralell: 5.375451
+Sequential time: 0.547000 seconds
+Parallel time: 0.098000 seconds
+Speedup sequential-paralell: 5.581633
+Parallel block time: 0.079000 seconds
+Speedup sequential-paralell: 5.581633
+Matrix size: 800 x 800
+Sequential time: 2.386000 seconds
+Parallel time: 0.580000 seconds
+Speedup sequential-paralell: 4.113793
+Parallel block time: 0.392000 seconds
+Speedup sequential-paralell: 4.113793
+Matrix size: 1200 x 1200
+Sequential time: 8.926000 seconds
+Parallel time: 1.986000 seconds
+Speedup sequential-paralell: 4.494461
+Parallel block time: 1.272000 seconds
+Speedup sequential-paralell: 4.494461
+Matrix size: 1600 x 1600
+Sequential time: 32.126000 seconds
+Parallel time: 5.848000 seconds
+Speedup sequential-paralell: 5.493502
+Parallel block time: 2.754000 seconds
+Speedup sequential-paralell: 5.493502
+Matrix size: 2000 x 2000
+Sequential time: 61.107000 seconds
+Parallel time: 12.429000 seconds
+Speedup sequential-paralell: 4.916486
+Parallel block time: 6.373000 seconds
+Speedup sequential-paralell: 4.916486
