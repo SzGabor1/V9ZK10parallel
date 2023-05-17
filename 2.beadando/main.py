@@ -46,6 +46,7 @@ def plot_results(results):
     # ax2.legend(loc="upper right")
 
     fig.tight_layout()
+    plt.savefig('matrix_mult.png')
     plt.show()
 
 
